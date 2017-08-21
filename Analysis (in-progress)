@@ -1,0 +1,27 @@
+#Created by Troy Harwood
+#LA Metro Analysis w/ dplyr + ggplot2
+
+#Load Packages + Metro Data
+library(dplyr)
+library(readr)
+metro <- read_csv("~/Downloads/la_metro_gbfs_trips_Q2_2017 2.csv")
+View(metro)
+
+#tibble
+metro1 <- tbl_df(metro)
+metro1
+
+#Explore Passholder Type & Trip Duration Relationship
+select(metro1, contains("Monthly Pass"))
+
+#Explore Miles Per Pass Duration (Monthly vs. Annual MPPD)
+metro1[metro1 == 0] <- NA
+metro2 <- na.omit(metro1)
+metro3 <- mutate(metro2, mppd = duration/plan_duration)
+metro3[metro3 == 0] <- NA
+metro4 <- na.omit(metro3)
+arrange(metro4, desc(metro4$duration))
+View(metro4)
+
+#Load ggplot2
+library(ggplot2)
